@@ -19,7 +19,7 @@ function Home() {
           <Link to="/templates" className="px-6 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-indigo-600/25 flex items-center justify-center">
             Get Started
           </Link>
-          <Link to="/docs" className="px-6 py-3 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-medium border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 hover:scale-105 active:scale-95 transition-all shadow-sm flex items-center justify-center">
+          <Link to="/docs" className="px-6 py-3 rounded-xl bg-white dark:bg-[#21343b] text-slate-900 dark:text-white font-medium border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#2c434b] hover:scale-105 active:scale-95 transition-all shadow-sm flex items-center justify-center">
             Documentation
           </Link>
         </div>

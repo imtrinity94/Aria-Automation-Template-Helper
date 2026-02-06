@@ -8,7 +8,10 @@ import {
     useNodesState,
     useEdgesState,
     ConnectionMode,
-    BackgroundVariant
+    BackgroundVariant,
+    ReactFlowProvider,
+    useReactFlow,
+    MarkerType
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useTheme } from '@/hooks/useTheme';
@@ -20,8 +23,9 @@ interface BlueprintDiagramProps {
     onDeleteNode?: (id: string) => void;
 }
 
-export function BlueprintDiagram({ nodes: initialNodes, edges: initialEdges, onDeleteNode }: BlueprintDiagramProps) {
+function FlowInner({ nodes: initialNodes, edges: initialEdges, onDeleteNode }: BlueprintDiagramProps) {
     const { theme } = useTheme();
+    const { fitView } = useReactFlow();
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -40,40 +44,58 @@ export function BlueprintDiagram({ nodes: initialNodes, edges: initialEdges, onD
         }));
         setNodes(nodesWithActions);
         setEdges(initialEdges);
-    }, [initialNodes, initialEdges, onDeleteNode, setNodes, setEdges]);
+
+        // Auto-fit after a small delay to allow for rendering/layout
+        const timer = setTimeout(() => {
+            fitView({ padding: 0.05, duration: 400 });
+        }, 100);
+        return () => clearTimeout(timer);
+    }, [initialNodes, initialEdges, onDeleteNode, setNodes, setEdges, fitView]);
 
     return (
-        <div className="h-full w-full bg-slate-50 dark:bg-slate-950 flex flex-col overflow-hidden" id="diagram-container">
-            <div className="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Topology Diagram</span>
+        <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            nodeTypes={nodeTypes}
+            fitView
+            fitViewOptions={{ padding: 0.05, maxZoom: 2 }}
+            connectionMode={ConnectionMode.Loose}
+            attributionPosition="bottom-right"
+            colorMode={theme as 'light' | 'dark'}
+            defaultEdgeOptions={{
+                style: {
+                    stroke: theme === 'dark' ? '#94a3b8' : '#64748b',
+                    strokeWidth: 3.5,
+                },
+                markerEnd: {
+                    type: MarkerType.ArrowClosed,
+                    color: theme === 'dark' ? '#94a3b8' : '#64748b',
+                },
+            }}
+        >
+            <Background
+                variant={BackgroundVariant.Dots}
+                color={theme === 'dark' ? '#334155' : '#64748b'}
+                gap={24}
+                size={2}
+            />
+            <Controls />
+        </ReactFlow>
+    );
+}
+
+export function BlueprintDiagram(props: BlueprintDiagramProps) {
+    return (
+        <div className="h-full w-full bg-slate-50 dark:bg-[#20333a] flex flex-col overflow-hidden" id="diagram-container">
+            <div className="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-[#20333a] backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+                <span className="text-base font-bold text-slate-800 dark:text-slate-100">Topology Diagram</span>
             </div>
             <div className="flex-1 min-h-0 relative">
-                <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    nodeTypes={nodeTypes}
-                    fitView
-                    connectionMode={ConnectionMode.Loose}
-                    attributionPosition="bottom-right"
-                    colorMode={theme as 'light' | 'dark'}
-                    defaultEdgeOptions={{
-                        type: 'step',
-                        style: {
-                            stroke: theme === 'dark' ? '#94a3b8' : '#475569',
-                            strokeWidth: 2
-                        },
-                    }}
-                >
-                    <Background
-                        variant={BackgroundVariant.Dots}
-                        color={theme === 'dark' ? '#334155' : '#cbd5e1'}
-                        gap={20}
-                        size={1}
-                    />
-                    <Controls />
-                </ReactFlow>
+                <ReactFlowProvider>
+                    <FlowInner {...props} />
+                </ReactFlowProvider>
             </div>
         </div>
     );

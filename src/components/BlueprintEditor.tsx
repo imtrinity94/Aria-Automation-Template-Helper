@@ -28,14 +28,14 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
                 { token: 'comment', foreground: '64748b', fontStyle: 'italic' },
             ],
             colors: {
-                'editor.background': '#020617',
+                'editor.background': '#20333a',
                 'editor.foreground': '#f8fafc',
                 'editorCursor.foreground': '#6366f1',
-                'editor.lineHighlightBackground': '#0f172a',
-                'editorLineNumber.foreground': '#334155',
-                'editorIndentGuide.background': '#1e293b',
-                'editor.selectionBackground': '#1e293b',
-                'editorWidget.background': '#0f172a',
+                'editor.lineHighlightBackground': '#2c434b',
+                'editorLineNumber.foreground': '#4a6b75',
+                'editorIndentGuide.background': '#2c434b',
+                'editor.selectionBackground': '#2c434b',
+                'editorWidget.background': '#20333a',
             }
         });
 
@@ -65,7 +65,7 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
         const resourceTypes = Object.keys(snippets);
         const propertyMap: Record<string, string[]> = {};
 
-        Object.entries(snippets).forEach(([key, s]) => {
+        Object.entries(snippets).forEach(([_, s]) => {
             const typeMatch = s.body.find(l => l.includes('type:'));
             if (typeMatch) {
                 const type = typeMatch.split('type:')[1].trim();
@@ -91,6 +91,11 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
             triggerCharacters: [':', ' ', '\n', '-'],
             provideCompletionItems: (model, position) => {
                 const lineContent = model.getLineContent(position.lineNumber);
+                // Trigger context-aware logic based on lineContent if needed
+                if (lineContent.trim().length === 0) {
+                    // Empty line logic...
+                }
+
                 const textUntilPosition = model.getValueInRange({
                     startLineNumber: 1,
                     startColumn: 1,
@@ -213,12 +218,43 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
                 return { suggestions };
             }
         });
+
+        // Register hover provider for YAML
+        monaco.languages.registerHoverProvider("yaml", {
+            provideHover: (model, position) => {
+                const word = model.getWordAtPosition(position);
+                if (!word) return;
+
+                // Find resource type in snippets
+                const snippet = Object.values(snippets).find(s => s.prefix === word.word);
+                if (snippet) {
+                    return {
+                        contents: [
+                            { value: `### ${snippet.prefix}` },
+                            { value: snippet.description }
+                        ]
+                    };
+                }
+
+                // Check if it's a known property
+                const lineContent = model.getLineContent(position.lineNumber);
+                if (lineContent.includes(':')) {
+                    const key = lineContent.split(':')[0].trim();
+                    if (key === word.word) {
+                        // We could find which resource this property belongs to, 
+                        // but for now just showing it's a property is good.
+                    }
+                }
+
+                return null;
+            }
+        });
     }, []);
 
     return (
-        <div className="h-full w-full bg-white dark:bg-slate-950 flex flex-col overflow-hidden">
-            <div className="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Blueprint YAML</span>
+        <div className="h-full w-full bg-white dark:bg-[#20333a] flex flex-col overflow-hidden">
+            <div className="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-[#20333a] backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+                <span className="text-base font-bold text-slate-800 dark:text-slate-100">Blueprint YAML</span>
             </div>
             <div className="flex-1 min-h-0">
                 <Editor
@@ -244,7 +280,7 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
                         suggestOnTriggerCharacters: true,
                         acceptSuggestionOnEnter: "on",
                         tabCompletion: "on",
-                        wordBasedSuggestions: true,
+                        wordBasedSuggestions: "currentDocument",
                         parameterHints: { enabled: true },
                         suggest: {
                             snippetsPreventQuickSuggestions: false,

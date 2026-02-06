@@ -12,7 +12,7 @@ export const ResourceNode = memo(({ data }: any) => {
 
     return (
         <div className={cn(
-            "group relative flex items-center gap-3 px-4 py-3 min-w-[240px] bg-white dark:bg-slate-900 rounded-lg border dark:border-2 border-slate-200 dark:border-slate-500 shadow-sm hover:shadow-md transition-all duration-200",
+            "group relative flex items-center gap-4 px-6 py-5 min-w-[320px] bg-white dark:bg-[#20333a] rounded-xl border dark:border-2 border-slate-200 dark:border-slate-500 shadow-md hover:shadow-xl transition-all duration-200",
             data.isSelected && "ring-2 ring-indigo-500 border-indigo-500"
         )}>
             {/* Target handle on the left */}
@@ -37,18 +37,18 @@ export const ResourceNode = memo(({ data }: any) => {
             </div>
 
             <div className="flex-1 overflow-hidden">
-                <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate text-left">
+                <div className="text-xl font-bold text-slate-800 dark:text-slate-100 truncate text-left tracking-tight">
                     {data.name}
                 </div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate uppercase mt-0.5 font-medium tracking-wide text-left mb-1">
+                <div className="text-xs text-slate-500 dark:text-slate-400 truncate uppercase mt-1 font-semibold tracking-wider text-left mb-2">
                     {data.label || data.originalType}
                 </div>
                 {data.constraints && data.constraints.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-1">
+                    <div className="flex flex-wrap gap-1.5 mt-2">
                         {data.constraints.map((tag: string, i: number) => (
                             <span
                                 key={i}
-                                className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50 uppercase tracking-tighter"
+                                className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50 uppercase tracking-tight"
                             >
                                 {tag}
                             </span>

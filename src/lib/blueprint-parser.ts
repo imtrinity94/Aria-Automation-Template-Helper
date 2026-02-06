@@ -70,7 +70,6 @@ export const parseBlueprint = (yamlContent: string): BlueprintParseResult => {
         resourceKeys.forEach((sourceKey) => {
             const resource = resources[sourceKey];
             const resourceString = JSON.stringify(resource);
-
             const regex = /\${resource\.([a-zA-Z0-9_.-]+)\.[a-zA-Z0-9_]+}/g;
             let match;
 
@@ -78,24 +77,28 @@ export const parseBlueprint = (yamlContent: string): BlueprintParseResult => {
                 const targetKey = match[1];
                 if (resources[targetKey]) {
                     edges.push({
-                        id: `${sourceKey}->${targetKey}`,
-                        source: targetKey,
-                        target: sourceKey,
+                        id: `${sourceKey}-binding-${targetKey}`,
+                        source: sourceKey,
+                        target: targetKey,
                         animated: false,
-                        type: 'step',
+                        type: 'smoothstep',
+                        style: { strokeDasharray: '5,5' },
+                        data: { type: 'binding' }
                     });
                 }
             }
 
-            if (resource.dependsOn && Array.isArray(resource.dependsOn)) {
-                resource.dependsOn.forEach((targetKey: string) => {
-                    if (resources[targetKey]) {
+            if (resource.dependsOn) {
+                const dependencies = Array.isArray(resource.dependsOn) ? resource.dependsOn : [resource.dependsOn];
+                dependencies.forEach((targetKey: string) => {
+                    if (resources[targetKey] && targetKey !== sourceKey) {
                         edges.push({
                             id: `${sourceKey}-depends-${targetKey}`,
-                            source: targetKey,
-                            target: sourceKey,
+                            source: sourceKey,
+                            target: targetKey,
                             animated: false,
                             type: 'step',
+                            data: { type: 'dependsOn' }
                         });
                     }
                 });
@@ -104,11 +107,11 @@ export const parseBlueprint = (yamlContent: string): BlueprintParseResult => {
 
         // 3. Auto Layout with Dagre
         const g = new dagre.graphlib.Graph();
-        g.setGraph({ rankdir: 'LR', nodesep: 50, ranksep: 100 });
+        g.setGraph({ rankdir: 'LR', nodesep: 30, ranksep: 60 });
         g.setDefaultEdgeLabel(() => ({}));
 
         nodes.forEach((node) => {
-            g.setNode(node.id, { width: 250, height: 80 });
+            g.setNode(node.id, { width: 350, height: 120 });
         });
 
         edges.forEach((edge) => {
@@ -119,11 +122,14 @@ export const parseBlueprint = (yamlContent: string): BlueprintParseResult => {
 
         const layoutedNodes = nodes.map((node) => {
             const nodeWithPosition = g.node(node.id);
+            const originalType = (node.data.originalType as string) || '';
+            const isNetwork = originalType.toLowerCase().includes('network');
+
             return {
                 ...node,
                 position: {
-                    x: nodeWithPosition.x - 125,
-                    y: nodeWithPosition.y - 40,
+                    x: nodeWithPosition.x - 175,
+                    y: isNetwork ? 600 : nodeWithPosition.y - 60, // Force networks to the bottom row
                 },
                 targetPosition: Position.Left,
                 sourcePosition: Position.Right,

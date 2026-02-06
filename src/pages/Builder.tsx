@@ -103,56 +103,58 @@ export default function BuilderPage() {
 
     return (
         <Layout title="Template Builder" description="Design VCF Automation Templates">
-            <div className="fixed inset-x-0 top-16 bottom-0 flex flex-col bg-slate-50 dark:bg-slate-950 overflow-hidden">
-                <Toolbar
-                    onRender={handleRender}
-                    onDownloadYaml={handleDownloadYaml}
-                    onDownloadPng={handleDownloadPng}
-                    onLoadSample={(code) => {
-                        setYamlContent(code);
-                        const result = parseBlueprint(code);
-                        setNodes(result.nodes);
-                        setEdges(result.edges);
-                    }}
-                />
+            <div className="fixed inset-0 top-16 bg-slate-50 dark:bg-[#0F171C] flex flex-col p-4 md:p-8 overflow-hidden">
+                <div className="flex-1 w-full max-w-[95%] mx-auto bg-white dark:bg-[#20333a] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col overflow-hidden ring-1 ring-slate-200/50 dark:ring-slate-800/50">
+                    <Toolbar
+                        onRender={handleRender}
+                        onDownloadYaml={handleDownloadYaml}
+                        onDownloadPng={handleDownloadPng}
+                        onLoadSample={(code) => {
+                            setYamlContent(code);
+                            const result = parseBlueprint(code);
+                            setNodes(result.nodes);
+                            setEdges(result.edges);
+                        }}
+                    />
 
-                {error && (
-                    <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-4 py-2 text-sm border-b border-red-100 dark:border-red-900/50 flex items-center gap-2">
-                        <span className="font-bold">Error:</span> {error}
+                    {error && (
+                        <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-4 py-2 text-sm border-b border-red-100 dark:border-red-900/50 flex items-center gap-2">
+                            <span className="font-bold">Error:</span> {error}
+                        </div>
+                    )}
+
+                    <div className="flex-1 min-h-0 overflow-hidden">
+                        <Group orientation="horizontal">
+                            {/* Panel 1: Resource Palette */}
+                            <Panel defaultSize={20} minSize={15}>
+                                <ResourcePalette onAddResource={handleAddResource} />
+                            </Panel>
+
+                            <Separator className="w-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors cursor-col-resize flex items-center justify-center">
+                                <div className="w-0.5 h-8 bg-slate-400 dark:bg-slate-600 rounded-full" />
+                            </Separator>
+
+                            {/* Panel 2: Diagram Canvas */}
+                            <Panel defaultSize={50} minSize={30}>
+                                <div className="h-full relative overflow-hidden">
+                                    <BlueprintDiagram
+                                        nodes={nodes}
+                                        edges={edges}
+                                        onDeleteNode={handleDeleteNode}
+                                    />
+                                </div>
+                            </Panel>
+
+                            <Separator className="w-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors cursor-col-resize flex items-center justify-center">
+                                <div className="w-0.5 h-8 bg-slate-400 dark:bg-slate-600 rounded-full" />
+                            </Separator>
+
+                            {/* Panel 3: YAML Editor */}
+                            <Panel defaultSize={30} minSize={20}>
+                                <BlueprintEditor value={yamlContent} onChange={(v) => setYamlContent(v || '')} />
+                            </Panel>
+                        </Group>
                     </div>
-                )}
-
-                <div className="flex-1 overflow-hidden">
-                    <Group orientation="horizontal">
-                        {/* Panel 1: Resource Palette */}
-                        <Panel defaultSize={20} minSize={15}>
-                            <ResourcePalette onAddResource={handleAddResource} />
-                        </Panel>
-
-                        <Separator className="w-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors cursor-col-resize flex items-center justify-center">
-                            <div className="w-0.5 h-8 bg-slate-400 dark:bg-slate-600 rounded-full" />
-                        </Separator>
-
-                        {/* Panel 2: Diagram Canvas */}
-                        <Panel defaultSize={50} minSize={30}>
-                            <div className="h-full relative">
-                                <BlueprintDiagram
-                                    nodes={nodes}
-                                    edges={edges}
-                                    onDeleteNode={handleDeleteNode}
-                                />
-                            </div>
-                        </Panel>
-
-                        <Separator className="w-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors cursor-col-resize flex items-center justify-center">
-                            <div className="w-0.5 h-8 bg-slate-400 dark:bg-slate-600 rounded-full" />
-                        </Separator>
-
-                        {/* Panel 3: YAML Editor */}
-                        <Panel defaultSize={30} minSize={20}>
-                            <BlueprintEditor value={yamlContent} onChange={(v) => setYamlContent(v || '')} />
-                        </Panel>
-                    </Group>
                 </div>
             </div>
         </Layout>

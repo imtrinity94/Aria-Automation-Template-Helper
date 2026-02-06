@@ -11,7 +11,7 @@ interface LayoutProps {
 
 export function Layout({ children, title = "VCF Builder", description = "VCF Automation Template Builder" }: LayoutProps) {
     return (
-        <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans antialiased">
+        <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#0F171C] text-slate-900 dark:text-slate-50 font-sans antialiased">
             <Helmet>
                 <title>{title}</title>
                 <meta name="description" content={description} />
