@@ -1,0 +1,20 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve">
+                                                                        <title>Primary VM 16x</title>
+                                                                        <g>
+                                                                            <rect x="3" y="1" fill="#CBDAE0" width="9" height="9"></rect>
+                                                                            <rect x="1" y="6" fill="#CBDAE0" width="9" height="9"></rect>
+                                                                            <rect x="6" y="4" fill="#CBDAE0" width="9" height="9"></rect>
+                                                                            <path fill="#37708D" d="M10,15H1V6h9V15z M2,14h7V7H2V14z">
+                                                                            </path>
+                                                                            <polygon fill="#37708D" points="7,6 7,5 11,5 11,4 6,4 6,6   ">
+                                                                            </polygon>
+                                                                            <polygon fill="#37708D" points="11,5 12,5 12,1 3,1 3,6.5 4,6.5 4,2 11,2     ">
+                                                                            </polygon>
+                                                                            <polygon fill="#6D99AF" points="11,5 11,9 10,9 10,10 11,10 11.4,10 12,10 12,5   ">
+                                                                            </polygon>
+                                                                            <polygon fill="#6D99AF" points="7,7 6,7 6,9 4,9 4,7 3,7 3,10 6,10 6,13 6.3,13 7,13 9,13 9,12 7,12 7,10 9,10 9,9 7,9     ">
+                                                                            </polygon>
+                                                                            <polygon fill="#37708D" points="12,4 12,5 14.2,5 14.2,12 10,12 10,13 15,13 15,4     ">
+                                                                            </polygon>
+                                                                        </g>
+                                                                    </svg>
