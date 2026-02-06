@@ -39,6 +39,20 @@ export const parseBlueprint = (yamlContent: string): BlueprintParseResult => {
             const type = resource.type || 'Unknown';
             const style = RESOURCE_STYLES[type] || { label: type, color: '' };
 
+            // Extract constraints (tags)
+            const nodeConstraints: string[] = [];
+            if (resource.properties?.constraints) {
+                const c = resource.properties.constraints;
+                if (Array.isArray(c)) {
+                    c.forEach((item: any) => {
+                        if (typeof item === 'string') nodeConstraints.push(item.trim());
+                        else if (item.tag) nodeConstraints.push(item.tag.trim());
+                    });
+                } else if (typeof c === 'string') {
+                    nodeConstraints.push(c.trim());
+                }
+            }
+
             nodes.push({
                 id: key,
                 type: 'resourceNode',
@@ -46,6 +60,7 @@ export const parseBlueprint = (yamlContent: string): BlueprintParseResult => {
                     name: key,
                     label: style.label,
                     originalType: type,
+                    constraints: nodeConstraints,
                 },
                 position: { x: 0, y: 0 },
             });

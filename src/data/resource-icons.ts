@@ -1,34 +1,34 @@
 export const RESOURCE_ICON_MAP: Record<string, string> = {
     // Cloud Machine types
-    'Cloud.Machine': 'machine_v_sphere_machine.svg',
-    'Cloud.vSphere.Machine': 'machine_v_sphere_machine.svg',
-    'Cloud.AWS.EC2.Instance': 'ec2_instance_aws_ec2_instance.svg',
-    'Cloud.Azure.Machine': 'azure_machine_azure_vm.svg',
-    'Cloud.GCP.Machine': 'compute_instance_gcp_compute_instance.svg',
+    'Cloud.Machine': 'machine_vsphere_vm.svg',
+    'Cloud.vSphere.Machine': 'machine_vsphere_vm.svg',
+    'Cloud.AWS.EC2.Instance': 'instance_aws_machine.svg',
+    'Cloud.Azure.Machine': 'machine_azure_machine.svg',
+    'Cloud.GCP.Machine': 'instance_gcp_compute_engine.svg',
 
     // Networks
     'Cloud.Network': 'network_helper_allocation_network.svg',
-    'Cloud.vSphere.Network': 'network_helper_allocation_network.svg',
-    'Cloud.NSX.Network': 'nsx_network_nsx_t_network.svg',
-    'Cloud.AWS.Network': 'vpc_aws_vpc.svg',
-    'Cloud.Azure.Network': 'virtual_network_azure_virtual_network.svg',
+    'Cloud.vSphere.Network': 'network_vsphere_network.svg',
+    'Cloud.NSX.Network': 'network_helper_allocation_network.svg',
+    'Cloud.AWS.Network': 'network_network_globe.svg',
+    'Cloud.Azure.Network': 'network_network_globe.svg',
 
     // Storage/Volumes
     'Cloud.Volume': 'volume_storage.svg',
-    'Cloud.vSphere.Disk': 'volume_storage.svg',
+    'Cloud.vSphere.Disk': 'disk_vsphere_disk.svg',
     'Cloud.AWS.Volume': 'volume_aws_volume.svg',
-    'Cloud.Azure.Disk': 'managed_disk_azure_managed_disk.svg',
+    'Cloud.Azure.Disk': 'disk_azure_disk.svg',
 
     // Load Balancers
-    'Cloud.LoadBalancer': 'load_balancer_zap.svg',
-    'Cloud.NSX.LoadBalancer': 'lb_f5_big_ip_load_balancer.svg',
+    'Cloud.LoadBalancer': 'load_balancer_load_balancer.svg',
+    'Cloud.NSX.LoadBalancer': 'load_balancer_load_balancer.svg',
 
     // Security Groups
     'Cloud.SecurityGroup': 'security_group_shield.svg',
     'Cloud.NSX.SecurityGroup': 'security_group_shield.svg',
 
     // Databases
-    'Cloud.AWS.RDS.Instance': 'rds_instance_aws_rds.svg',
+    'Cloud.AWS.RDS.Instance': 'db_instance_aws_db.svg',
     'Cloud.Azure.SQLDatabase': 'sql_database_azure_sql_database.svg',
 
     // Kubernetes / Containers
@@ -37,8 +37,8 @@ export const RESOURCE_ICON_MAP: Record<string, string> = {
     // Terraform
     'Cloud.Terraform.Configuration': 'terraform_configuration_terraform_config.svg',
 
-    // Default fallback (though we usually handle this in the component)
-    'Unknown': 'cpu.svg'
+    // Default fallback
+    'Unknown': 'compute_helper_allocation_compute.svg'
 };
 
 /**
@@ -54,12 +54,12 @@ export const getResourceIcon = (type: string): string => {
 
     // Generic fallbacks based on keywords
     const t = type.toLowerCase();
-    if (t.includes('machine')) return 'machine_v_sphere_machine.svg';
+    if (t.includes('machine') || t.includes('instance')) return 'machine_vsphere_vm.svg';
     if (t.includes('network')) return 'network_helper_allocation_network.svg';
     if (t.includes('disk') || t.includes('volume')) return 'volume_storage.svg';
-    if (t.includes('loadbalancer')) return 'load_balancer_zap.svg';
+    if (t.includes('loadbalancer') || t.includes('lb')) return 'load_balancer_load_balancer.svg';
     if (t.includes('security')) return 'security_group_shield.svg';
-    if (t.includes('database') || t.includes('sql')) return 'sql_database_azure_sql_database.svg';
+    if (t.includes('database') || t.includes('sql') || t.includes('rds')) return 'db_instance_aws_db.svg';
 
-    return 'machine_helper_allocation_compute.svg'; // Generic component icon
+    return 'compute_helper_allocation_compute.svg'; // Generic component icon
 };

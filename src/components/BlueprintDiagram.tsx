@@ -17,9 +17,10 @@ import { ResourceNode } from './ResourceNode';
 interface BlueprintDiagramProps {
     nodes: Node[];
     edges: Edge[];
+    onDeleteNode?: (id: string) => void;
 }
 
-export function BlueprintDiagram({ nodes: initialNodes, edges: initialEdges }: BlueprintDiagramProps) {
+export function BlueprintDiagram({ nodes: initialNodes, edges: initialEdges, onDeleteNode }: BlueprintDiagramProps) {
     const { theme } = useTheme();
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -28,18 +29,25 @@ export function BlueprintDiagram({ nodes: initialNodes, edges: initialEdges }: B
         resourceNode: ResourceNode
     }), []);
 
-    // Update flow state when props change (re-layout happens in parent, here we just sync)
+    // Update flow state when props change
     useEffect(() => {
-        setNodes(initialNodes);
+        const nodesWithActions = initialNodes.map(node => ({
+            ...node,
+            data: {
+                ...node.data,
+                onDelete: onDeleteNode
+            }
+        }));
+        setNodes(nodesWithActions);
         setEdges(initialEdges);
-    }, [initialNodes, initialEdges, setNodes, setEdges]);
+    }, [initialNodes, initialEdges, onDeleteNode, setNodes, setEdges]);
 
     return (
-        <div className="h-full w-full bg-[#f8fafc] dark:bg-slate-950" id="diagram-container">
-            <div className="h-10 px-4 flex items-center bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                Topology Diagram
+        <div className="h-full w-full bg-slate-50 dark:bg-slate-950 flex flex-col overflow-hidden" id="diagram-container">
+            <div className="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Topology Diagram</span>
             </div>
-            <div className="h-[calc(100%-40px)]">
+            <div className="flex-1 min-h-0 relative">
                 <ReactFlow
                     nodes={nodes}
                     edges={edges}
@@ -49,9 +57,13 @@ export function BlueprintDiagram({ nodes: initialNodes, edges: initialEdges }: B
                     fitView
                     connectionMode={ConnectionMode.Loose}
                     attributionPosition="bottom-right"
+                    colorMode={theme as 'light' | 'dark'}
                     defaultEdgeOptions={{
                         type: 'step',
-                        style: { stroke: '#475569', strokeWidth: 2 },
+                        style: {
+                            stroke: theme === 'dark' ? '#94a3b8' : '#475569',
+                            strokeWidth: 2
+                        },
                     }}
                 >
                     <Background
@@ -60,7 +72,7 @@ export function BlueprintDiagram({ nodes: initialNodes, edges: initialEdges }: B
                         gap={20}
                         size={1}
                     />
-                    <Controls className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 fill-slate-500 dark:fill-slate-400" />
+                    <Controls />
                 </ReactFlow>
             </div>
         </div>

@@ -5,15 +5,18 @@ import './index.css'
 import { HashRouter } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ErrorBoundary } from './components/ErrorBoundary'
+import { ThemeProvider } from "@/contexts/ThemeContext"
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <HelmetProvider>
-        <HashRouter>
-          <App />
-        </HashRouter>
-      </HelmetProvider>
+      <ThemeProvider>
+        <HelmetProvider>
+          <HashRouter>
+            <App />
+          </HashRouter>
+        </HelmetProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   </React.StrictMode>,
 )

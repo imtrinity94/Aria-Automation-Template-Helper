@@ -1,12 +1,15 @@
 import { useState, useCallback } from 'react';
+import yaml from 'js-yaml';
 import { Layout } from "@/components/Layout";
 import { BlueprintEditor } from "@/components/BlueprintEditor";
 import { BlueprintDiagram } from "@/components/BlueprintDiagram";
 import { Toolbar } from "@/components/Toolbar";
+import { ResourcePalette } from "@/components/ResourcePalette";
 import { parseBlueprint } from "@/lib/blueprint-parser";
 import { type Node, type Edge } from '@xyflow/react';
 import { toPng } from 'html-to-image';
 import { SAMPLE_BLUEPRINT_COMPLEX } from '@/data/sample-blueprints';
+import { Panel, Group, Separator } from "react-resizable-panels";
 
 export default function BuilderPage() {
     const [yamlContent, setYamlContent] = useState<string>(SAMPLE_BLUEPRINT_COMPLEX);
@@ -25,8 +28,7 @@ export default function BuilderPage() {
         }
     }, [yamlContent]);
 
-    // Initial render on mount (optional, or wait for user)
-    // Let's render immediately so they see something
+    // Initial render on mount
     useState(() => {
         const result = parseBlueprint(yamlContent);
         setNodes(result.nodes);
@@ -46,9 +48,6 @@ export default function BuilderPage() {
     const handleDownloadPng = async () => {
         const el = document.getElementById('diagram-container');
         if (el) {
-            // Find the react-flow flow pane to capture
-            // Usually the whole container is fine but we want to ensure we capture the canvas
-            // html-to-image works well with DOM elements.
             try {
                 const dataUrl = await toPng(el, { backgroundColor: '#fff' });
                 const a = document.createElement('a');
@@ -61,16 +60,56 @@ export default function BuilderPage() {
         }
     };
 
+    const handleDeleteNode = useCallback((nodeId: string) => {
+        try {
+            const parsed = yaml.load(yamlContent) as any;
+            if (parsed && parsed.resources && parsed.resources[nodeId]) {
+                delete parsed.resources[nodeId];
+
+                // Remove dependency references
+                Object.values(parsed.resources).forEach((resource: any) => {
+                    if (resource.dependsOn && Array.isArray(resource.dependsOn)) {
+                        resource.dependsOn = resource.dependsOn.filter((dep: string) => dep !== nodeId);
+                        if (resource.dependsOn.length === 0) delete resource.dependsOn;
+                    }
+                });
+
+                const newYaml = yaml.dump(parsed, { indent: 2, noRefs: true });
+                setYamlContent(newYaml);
+
+                // Update diagram immediately
+                const result = parseBlueprint(newYaml);
+                setNodes(result.nodes);
+                setEdges(result.edges);
+            }
+        } catch (err) {
+            console.error('Failed to delete resource:', err);
+            setError('Failed to update YAML after deletion');
+        }
+    }, [yamlContent, setYamlContent]);
+
+    const handleAddResource = (snippet: string) => {
+        setYamlContent(prev => {
+            const hasResources = prev.includes('resources:');
+            if (hasResources) {
+                return prev + '\n' + snippet;
+            } else {
+                return prev + '\nresources:\n' + snippet;
+            }
+        });
+        // Auto render after adding
+        setTimeout(handleRender, 100);
+    };
+
     return (
         <Layout title="Template Builder" description="Design VCF Automation Templates">
-            <div className="flex flex-col h-[calc(100vh-140px)] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm bg-white dark:bg-slate-900">
+            <div className="fixed inset-x-0 top-16 bottom-0 flex flex-col bg-slate-50 dark:bg-slate-950 overflow-hidden">
                 <Toolbar
                     onRender={handleRender}
                     onDownloadYaml={handleDownloadYaml}
                     onDownloadPng={handleDownloadPng}
                     onLoadSample={(code) => {
                         setYamlContent(code);
-                        // Auto render on load
                         const result = parseBlueprint(code);
                         setNodes(result.nodes);
                         setEdges(result.edges);
@@ -83,16 +122,37 @@ export default function BuilderPage() {
                     </div>
                 )}
 
-                <div className="flex-1 flex overflow-hidden">
-                    {/* Editor Pane */}
-                    <div className="w-1/2 min-w-[300px]">
-                        <BlueprintEditor value={yamlContent} onChange={(v) => setYamlContent(v || '')} />
-                    </div>
+                <div className="flex-1 overflow-hidden">
+                    <Group orientation="horizontal">
+                        {/* Panel 1: Resource Palette */}
+                        <Panel defaultSize={20} minSize={15}>
+                            <ResourcePalette onAddResource={handleAddResource} />
+                        </Panel>
 
-                    {/* Diagram Pane */}
-                    <div className="w-1/2 min-w-[300px] border-l border-slate-200 dark:border-slate-800 relative">
-                        <BlueprintDiagram nodes={nodes} edges={edges} />
-                    </div>
+                        <Separator className="w-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors cursor-col-resize flex items-center justify-center">
+                            <div className="w-0.5 h-8 bg-slate-400 dark:bg-slate-600 rounded-full" />
+                        </Separator>
+
+                        {/* Panel 2: Diagram Canvas */}
+                        <Panel defaultSize={50} minSize={30}>
+                            <div className="h-full relative">
+                                <BlueprintDiagram
+                                    nodes={nodes}
+                                    edges={edges}
+                                    onDeleteNode={handleDeleteNode}
+                                />
+                            </div>
+                        </Panel>
+
+                        <Separator className="w-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors cursor-col-resize flex items-center justify-center">
+                            <div className="w-0.5 h-8 bg-slate-400 dark:bg-slate-600 rounded-full" />
+                        </Separator>
+
+                        {/* Panel 3: YAML Editor */}
+                        <Panel defaultSize={30} minSize={20}>
+                            <BlueprintEditor value={yamlContent} onChange={(v) => setYamlContent(v || '')} />
+                        </Panel>
+                    </Group>
                 </div>
             </div>
         </Layout>
