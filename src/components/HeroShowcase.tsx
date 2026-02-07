@@ -44,7 +44,7 @@ export function HeroShowcase() {
         s = s.replace(/^(\s*)([a-zA-Z0-9_-]+:)/gm, '$1<span class="text-indigo-600 font-semibold">$2</span>');
 
         // Highlight values (after colon) for remaining unstyled values
-        s = s.replace(/(:\s*)([^\n\r<]+)/g, (m, p1, p2) => {
+        s = s.replace(/(:\s*)([^\n\r<]+)/g, (_m, p1, p2) => {
             // If value already contains a span, leave it
             if (p2.includes('<span')) return p1 + p2;
             return p1 + '<span class="text-emerald-700">' + p2 + '</span>';
