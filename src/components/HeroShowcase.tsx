@@ -77,11 +77,11 @@ export function HeroShowcase() {
                         </span>
                     </div>
 
-                                        <div className="pt-8 px-4 pb-3 h-full overflow-auto">
-                                                <pre className="text-[10px] md:text-sm leading-relaxed font-mono text-slate-800 dark:text-slate-300">
-                                                        <code dangerouslySetInnerHTML={{ __html: highlightYaml(DEMO_BLUEPRINT) }} />
-                                                </pre>
-                                        </div>
+                    <div className="pt-8 px-4 pb-3 h-full overflow-auto">
+                        <pre className="text-[10px] md:text-sm leading-relaxed font-mono text-slate-800 dark:text-slate-300">
+                            <code dangerouslySetInnerHTML={{ __html: highlightYaml(DEMO_BLUEPRINT) }} />
+                        </pre>
+                    </div>
                 </div>
 
                 {/* Diagram */}

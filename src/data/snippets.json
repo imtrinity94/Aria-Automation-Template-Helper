@@ -26,9 +26,7 @@
       "      inventoryFile:",
       "      authentication:",
       "      privateKeyFile:",
-      "      maxConnectionRetries:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      maxConnectionRetries:"
     ],
     "description": "Configuration Management"
   },
@@ -112,9 +110,7 @@
       "          minSize:",
       "          recurrence:",
       "          desiredCapacity:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS"
   },
@@ -154,9 +150,7 @@
       "        tag:",
       "      internetFacing:",
       "      resourceGroupName:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Load Balancers"
   },
@@ -196,9 +190,7 @@
       "        tag:",
       "      internetFacing:",
       "      resourceGroupName:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Load Balancers"
   },
@@ -238,9 +230,7 @@
       "        tag:",
       "      internetFacing:",
       "      resourceGroupName:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Load Balancers"
   },
@@ -268,9 +258,7 @@
       "        - ",
       "        tag:",
       "      maxDiskCapacityInGB:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS"
   },
@@ -298,9 +286,7 @@
       "      managedDiskType:",
       "      storageAccountName:",
       "      maxDiskCapacityInGB:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure"
   },
@@ -368,9 +354,7 @@
       "        phoneHomeShouldWait:",
       "        phoneHomeFailOnTimeout:",
       "        phoneHomeTimeoutSeconds:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure"
   },
@@ -384,9 +368,7 @@
       "      count:",
       "      useExisting:",
       "      resourceName:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure"
   },
@@ -411,9 +393,7 @@
       "        - ",
       "        tag:",
       "      persistentDiskType:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "GCP"
   },
@@ -439,9 +419,7 @@
       "      attachedDisks:",
       "        - ",
       "        source:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "GCP"
   },
@@ -459,9 +437,7 @@
       "      constraints:",
       "        - ",
       "        tag:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Kubernetes"
   },
@@ -477,9 +453,7 @@
       "        - ",
       "        tag:",
       "      description:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Kubernetes"
   },
@@ -519,9 +493,7 @@
       "        tag:",
       "      internetFacing:",
       "      resourceGroupName:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Cloud Agnostic"
   },
@@ -610,9 +582,7 @@
       "          minSize:",
       "          recurrence:",
       "          desiredCapacity:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Cloud Agnostic"
   },
@@ -636,9 +606,7 @@
       "      networkType:",
       "      prefixLength:",
       "      resourceGroupName:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Cloud Agnostic"
   },
@@ -677,9 +645,7 @@
       "        - ",
       "        tag:",
       "      internetFacing:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "NSX"
   },
@@ -709,9 +675,7 @@
       "      networkType:",
       "      prefixLength:",
       "      dnsSearchDomains:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "NSX"
   },
@@ -743,9 +707,7 @@
       "        puppetAgentAccountUser:",
       "        puppetAgentAccountDomain:",
       "        puppetAgentAccountPassword:",
-      "      maxConnectionRetries:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      maxConnectionRetries:"
     ],
     "description": "Configuration Management"
   },
@@ -766,9 +728,7 @@
       "      execution_arn:",
       "      provider_region:",
       "      stage_description:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.API"
   },
@@ -800,9 +760,7 @@
       "      timeout_milliseconds:",
       "      integration_http_method:",
       "      request_parameters_in_json:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.API"
   },
@@ -828,9 +786,7 @@
       "        string:",
       "      request_validator_id:",
       "      request_parameters_in_json:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.API"
   },
@@ -847,9 +803,7 @@
       "      path_part:",
       "      rest_api_id:",
       "      provider_region:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.API"
   },
@@ -879,9 +833,7 @@
       "          - ",
       "          string:",
       "      minimum_compression_size:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.API"
   },
@@ -961,9 +913,7 @@
       "        - ",
       "        string:",
       "      iam_database_authentication_enabled:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.DB"
   },
@@ -987,9 +937,7 @@
       "      description:",
       "      name_prefix:",
       "      provider_region:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.DB"
   },
@@ -1076,9 +1024,7 @@
       "      visible_to_all_users:",
       "      security_configuration:",
       "      termination_protection:",
-      "      keep_job_flow_alive_when_no_steps:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      keep_job_flow_alive_when_no_steps:"
     ],
     "description": "AWS.EMR"
   },
@@ -1104,9 +1050,7 @@
       "      instance_type:",
       "      instance_count:",
       "      running_instance_count:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.EMR"
   },
@@ -1123,9 +1067,7 @@
       "      name_prefix:",
       "      configuration:",
       "      creation_date:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.EMR"
   },
@@ -1148,9 +1090,7 @@
       "      account:",
       "      unique_id:",
       "      create_date:",
-      "      name_prefix:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      name_prefix:"
     ],
     "description": "AWS.IAM"
   },
@@ -1174,9 +1114,7 @@
       "      assume_role_policy:",
       "      max_session_duration:",
       "      permissions_boundary:",
-      "      force_detach_policies:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      force_detach_policies:"
     ],
     "description": "AWS.IAM"
   },
@@ -1193,9 +1131,7 @@
       "      region:",
       "      account:",
       "      name_prefix:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.IAM"
   },
@@ -1410,9 +1346,7 @@
       "        - ",
       "        role_arn:",
       "        kinesis_stream_arn:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Kinesis"
   },
@@ -1435,9 +1369,7 @@
       "      shard_level_metrics:",
       "        - ",
       "        string:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Kinesis"
   },
@@ -1459,9 +1391,7 @@
       "      is_enabled:",
       "      description:",
       "      enable_key_rotation:",
-      "      deletion_window_in_days:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      deletion_window_in_days:"
     ],
     "description": "AWS.KMS"
   },
@@ -1482,9 +1412,7 @@
       "        - ",
       "        additional_version_weights:",
       "      function_version:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Lambda"
   },
@@ -1508,9 +1436,7 @@
       "      starting_position:",
       "      last_processing_result:",
       "      state_transition_reason:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Lambda"
   },
@@ -1563,9 +1489,7 @@
       "        - ",
       "        target_arn:",
       "      reserved_concurrent_executions:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Lambda"
   },
@@ -1587,9 +1511,7 @@
       "      source_account:",
       "      event_source_token:",
       "      statement_id_prefix:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Lambda"
   },
@@ -1661,9 +1583,7 @@
       "      enabled_cloudwatch_logs_exports:",
       "        - ",
       "        string:",
-      "      iam_database_authentication_enabled:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      iam_database_authentication_enabled:"
     ],
     "description": "AWS.RDS"
   },
@@ -1703,9 +1623,7 @@
       "      auto_minor_version_upgrade:",
       "      performance_insights_enabled:",
       "      preferred_maintenance_window:",
-      "      performance_insights_kms_key_id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      performance_insights_kms_key_id:"
     ],
     "description": "AWS.RDS"
   },
@@ -1729,9 +1647,7 @@
       "        apply_method:",
       "      description:",
       "      name_prefix:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.RDS"
   },
@@ -1796,9 +1712,7 @@
       "      cluster_parameter_group_name:",
       "      preferred_maintenance_window:",
       "      automated_snapshot_retention_period:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Redshift"
   },
@@ -1818,9 +1732,7 @@
       "        name:",
       "        value:",
       "      description:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Redshift"
   },
@@ -1839,9 +1751,7 @@
       "        - ",
       "        string:",
       "      description:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Redshift"
   },
@@ -1887,9 +1797,7 @@
       "        continent:",
       "        subdivision:",
       "      multivalue_answer_routing_policy:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Route53"
   },
@@ -1913,9 +1821,7 @@
       "        string:",
       "      force_destroy:",
       "      delegation_set_id:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.Route53"
   },
@@ -2021,9 +1927,7 @@
       "          apply_server_side_encryption_by_default:",
       "            - ",
       "            sse_algorithm:",
-      "            kms_master_key_id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "            kms_master_key_id:"
     ],
     "description": "AWS.S3"
   },
@@ -2064,9 +1968,7 @@
       "        filter_prefix:",
       "        filter_suffix:",
       "        lambda_function_arn:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "AWS.S3"
   },
@@ -2097,9 +1999,7 @@
       "      content_language:",
       "      website_redirect:",
       "      content_disposition:",
-      "      server_side_encryption:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      server_side_encryption:"
     ],
     "description": "AWS.S3"
   },
@@ -2114,9 +2014,7 @@
       "      bucket:",
       "      policy:",
       "      region:",
-      "      account:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      account:"
     ],
     "description": "AWS.S3"
   },
@@ -2185,9 +2083,7 @@
       "      default_site_hostname:",
       "      outbound_ip_addresses:",
       "      client_affinity_enabled:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.App"
   },
@@ -2215,9 +2111,7 @@
       "        app_service_environment_id:",
       "      resource_group_name:",
       "      maximum_number_of_workers:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.App"
   },
@@ -2278,9 +2172,7 @@
       "      resource_group_name:",
       "      default_site_hostname:",
       "      client_affinity_enabled:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.App"
   },
@@ -2300,9 +2192,7 @@
       "        string:",
       "      zone_name:",
       "      resource_group_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.DNS"
   },
@@ -2322,9 +2212,7 @@
       "        string:",
       "      zone_name:",
       "      resource_group_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.DNS"
   },
@@ -2346,9 +2234,7 @@
       "      account:",
       "      zone_name:",
       "      resource_group_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.DNS"
   },
@@ -2367,9 +2253,7 @@
       "      records:",
       "      zone_name:",
       "      resource_group_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.DNS"
   },
@@ -2390,9 +2274,7 @@
       "      account:",
       "      zone_name:",
       "      resource_group_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.DNS"
   },
@@ -2415,9 +2297,7 @@
       "        string:",
       "      zone_name:",
       "      resource_group_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.DNS"
   },
@@ -2437,9 +2317,7 @@
       "        string:",
       "      zone_name:",
       "      resource_group_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.DNS"
   },
@@ -2462,9 +2340,7 @@
       "      account:",
       "      zone_name:",
       "      resource_group_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.DNS"
   },
@@ -2484,9 +2360,7 @@
       "      account:",
       "      zone_name:",
       "      resource_group_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.DNS"
   },
@@ -2513,9 +2387,7 @@
       "      registration_virtual_network_ids:",
       "        - ",
       "        string:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.DNS"
   },
@@ -2559,9 +2431,7 @@
       "      outbound_ip_addresses:",
       "      client_affinity_enabled:",
       "      storage_connection_string:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Function"
   },
@@ -2609,9 +2479,7 @@
       "      enabled_for_deployment:",
       "      enabled_for_disk_encryption:",
       "      enabled_for_template_deployment:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Key"
   },
@@ -2637,9 +2505,7 @@
       "      certificate_permissions:",
       "        - ",
       "        string:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Key"
   },
@@ -2662,9 +2528,7 @@
       "      key_size:",
       "      key_type:",
       "      vault_uri:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Key"
   },
@@ -2682,9 +2546,7 @@
       "      version:",
       "      vault_uri:",
       "      content_type:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Key"
   },
@@ -2727,9 +2589,7 @@
       "      resource_group_name:",
       "      secondary_access_key:",
       "      private_static_ip_address:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Redis"
   },
@@ -2748,9 +2608,7 @@
       "      replica_count:",
       "      partition_count:",
       "      resource_group_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Search"
   },
@@ -2803,9 +2661,7 @@
       "      source_database_deletion_date:",
       "      requested_service_objective_id:",
       "      requested_service_objective_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.SQL"
   },
@@ -2825,9 +2681,7 @@
       "      resource_group_name:",
       "      fully_qualified_domain_name:",
       "      administrator_login_password:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.SQL"
   },
@@ -2887,9 +2741,7 @@
       "      secondary_connection_string:",
       "      primary_blob_connection_string:",
       "      secondary_blob_connection_string:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Storage"
   },
@@ -2913,9 +2765,7 @@
       "      resource_group_name:",
       "      storage_account_name:",
       "      storage_container_name:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Storage"
   },
@@ -2932,9 +2782,7 @@
       "      resource_group_name:",
       "      storage_account_name:",
       "      container_access_type:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Storage"
   },
@@ -2961,9 +2809,7 @@
       "      min_child_endpoints:",
       "      resource_group_name:",
       "      endpoint_monitor_status:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Traffic"
   },
@@ -2990,9 +2836,7 @@
       "      profile_status:",
       "      resource_group_name:",
       "      traffic_routing_method:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Microsoft Azure.Traffic"
   },
@@ -3019,9 +2863,7 @@
       "        tag:",
       "      resourceGroupName:",
       "      maxDiskCapacityInGB:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "Cloud Agnostic"
   },
@@ -3049,9 +2891,7 @@
       "      storagePolicy:",
       "      provisioningType:",
       "      maxDiskCapacityInGB:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "vSphere"
   },
@@ -3118,9 +2958,7 @@
       "        phoneHomeFailOnTimeout:",
       "        phoneHomeTimeoutSeconds:",
       "      checkImageSSLCertificate:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "vSphere"
   },
@@ -3150,9 +2988,7 @@
       "      networkType:",
       "      prefixLength:",
       "      dnsSearchDomains:",
-      "      id:",
-      "  #TYPE 'OPTIONAL' TO FIND OPTIONAL PROPERTIES FOR YOUR RESOURCE.",
-      "  ${0}"
+      "      id:"
     ],
     "description": "vSphere"
   }

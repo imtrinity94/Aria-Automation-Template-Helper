@@ -2,6 +2,8 @@ import Editor, { type Monaco } from "@monaco-editor/react";
 import { useTheme } from "@/hooks/useTheme";
 import { useCallback } from "react";
 import snippetsData from "@/data/snippets.json";
+import schemaData from "@/data/schema.json";
+import yaml from "js-yaml";
 
 interface BlueprintEditorProps {
     value: string;
@@ -62,33 +64,23 @@ export function BlueprintEditor({ value, onChange, hideHeader }: BlueprintEditor
             }
         });
 
-        // Pre-process snippets for faster context-aware lookups
-        const resourceTypes = Object.keys(snippets).map(t => t.replace(':', ''));
+        const fullSchema = schemaData as unknown as { definitions: Record<string, any> };
+        const resourceTypes = Object.keys(fullSchema.definitions)
+            .filter(k => (k.startsWith('Cloud.') || k.startsWith('Allocations.')) && !k.includes('_'))
+            .sort();
         const propertyMap: Record<string, string[]> = {};
+        const enumMap: Record<string, string[]> = {};
 
-        Object.entries(snippets).forEach(([prefixWithColon, s]) => {
-            const prefix = prefixWithColon.replace(':', '');
-            const typeMatch = s.body.find(l => l.trim().startsWith('type:'));
-            const type = typeMatch ? typeMatch.split('type:')[1].trim() : prefix;
-
-            const properties: string[] = [];
-            let inProperties = false;
-            s.body.forEach(line => {
-                const trimmed = line.trim();
-                const indent = line.search(/\S/);
-                if (trimmed === 'properties:') { inProperties = true; return; }
-                if (inProperties) {
-                    if (indent <= 4 && trimmed !== '' && indent !== -1) {
-                        inProperties = false;
-                        return;
-                    }
-                    if (trimmed.endsWith(':') && indent === 6) {
-                        properties.push(trimmed.replace(':', '').trim());
-                    }
+        Object.entries(fullSchema.definitions).forEach(([type, def]) => {
+            const props = (def.properties || {}) as Record<string, any>;
+            const keys = Object.keys(props);
+            propertyMap[type] = keys;
+            keys.forEach(k => {
+                const p = props[k];
+                if (p && Array.isArray(p.enum)) {
+                    enumMap[`${type}.${k}`] = p.enum;
                 }
             });
-            propertyMap[type] = properties;
-            if (type !== prefix) propertyMap[prefix] = properties;
         });
 
         // Global constants for IntelliSense
@@ -107,6 +99,17 @@ export function BlueprintEditor({ value, onChange, hideHeader }: BlueprintEditor
                     endLineNumber: position.lineNumber,
                     endColumn: position.column
                 });
+
+                const fullText = model.getValue();
+                let doc: any = {};
+                try {
+                    doc = yaml.load(fullText) as any;
+                } catch { }
+                const inputKeys: string[] = Object.keys(doc?.inputs || {});
+                const resourceEntries: Array<{ name: string; type: string }> = Object.entries(doc?.resources || {}).map(
+                    ([name, r]: [string, any]) => ({ name, type: r?.type || '' })
+                );
+                const resourceNames = resourceEntries.map(r => r.name);
 
                 const lines = textUntilPosition.split('\n');
                 const currentLine = lines[lines.length - 1];
@@ -127,6 +130,7 @@ export function BlueprintEditor({ value, onChange, hideHeader }: BlueprintEditor
                 let currentResourceName = '';
                 let currentResourceType = '';
                 let inPropertiesBlock = false;
+                let currentPropertyKey = '';
 
                 for (let i = lines.length - 2; i >= 0; i--) {
                     const line = lines[i];
@@ -139,7 +143,7 @@ export function BlueprintEditor({ value, onChange, hideHeader }: BlueprintEditor
                             else if (line.trim().startsWith('inputs:')) currentSection = 'inputs';
                             else currentSection = 'metadata';
                         }
-                        break; // Top level reached
+                        break;
                     }
 
                     if (!currentSection || currentSection === 'resources') {
@@ -151,6 +155,9 @@ export function BlueprintEditor({ value, onChange, hideHeader }: BlueprintEditor
                         }
                         if (indent === 4 && line.trim().startsWith('properties:')) {
                             inPropertiesBlock = true;
+                        }
+                        if (indent === 6 && line.trim().endsWith(':')) {
+                            currentPropertyKey = line.trim().replace(':', '');
                         }
                     }
                 }
@@ -211,6 +218,57 @@ export function BlueprintEditor({ value, onChange, hideHeader }: BlueprintEditor
                                 range: range
                             });
                         });
+                        if (textAfterBrace.startsWith('input.')) {
+                            inputKeys.forEach(k => {
+                                suggestions.push({
+                                    label: k,
+                                    kind: monaco.languages.CompletionItemKind.Variable,
+                                    insertText: k,
+                                    detail: 'Input key',
+                                    range: range
+                                });
+                            });
+                            return { suggestions };
+                        }
+                        if (textAfterBrace.startsWith('resource.')) {
+                            const afterRoot = textAfterBrace.slice('resource.'.length);
+                            const parts = afterRoot.split('.');
+                            if (parts.length <= 1) {
+                                resourceNames.forEach(n => {
+                                    suggestions.push({
+                                        label: n,
+                                        kind: monaco.languages.CompletionItemKind.Variable,
+                                        insertText: n + '.',
+                                        detail: 'Resource name',
+                                        range: range
+                                    });
+                                });
+                                return { suggestions };
+                            } else {
+                                const resName = parts[0];
+                                const resType = resourceEntries.find(r => r.name === resName)?.type || '';
+                                const props = propertyMap[resType] || [];
+                                ['id', 'address', 'name', 'properties.'].forEach(k => {
+                                    suggestions.push({
+                                        label: k,
+                                        kind: monaco.languages.CompletionItemKind.Property,
+                                        insertText: k,
+                                        detail: 'Resource field',
+                                        range: range
+                                    });
+                                });
+                                props.forEach(p => {
+                                    suggestions.push({
+                                        label: `properties.${p}`,
+                                        kind: monaco.languages.CompletionItemKind.Property,
+                                        insertText: `properties.${p}`,
+                                        detail: `Property of ${resType}`,
+                                        range: range
+                                    });
+                                });
+                                return { suggestions };
+                            }
+                        }
                         return { suggestions };
                     }
                 }
@@ -286,6 +344,32 @@ export function BlueprintEditor({ value, onChange, hideHeader }: BlueprintEditor
                             range: range
                         });
                     });
+
+                    if (currentPropertyKey) {
+                        const enums = enumMap[`${currentResourceType}.${currentPropertyKey}`] || [];
+                        enums.forEach(val => {
+                            suggestions.push({
+                                label: val,
+                                kind: monaco.languages.CompletionItemKind.EnumMember,
+                                insertText: val,
+                                detail: 'Allowed value',
+                                range: range
+                            });
+                        });
+                    }
+
+                    if (currentPropertyKey === 'network') {
+                        const nets = resourceEntries.filter(r => r.type && r.type.toLowerCase().includes('network'));
+                        nets.forEach(n => {
+                            suggestions.push({
+                                label: `\${resource.${n.name}.id}`,
+                                kind: monaco.languages.CompletionItemKind.Reference,
+                                insertText: `\${resource.${n.name}.id}`,
+                                detail: 'Reference network id',
+                                range: range
+                            });
+                        });
+                    }
                 }
 
                 // 6. Snippets Fallback

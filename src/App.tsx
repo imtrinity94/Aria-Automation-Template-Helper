@@ -29,6 +29,10 @@ function Home() {
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
             The ultimate designer for VMware Cloud Foundation Automation.
             Build, visualize, and validate templates with an intelligent designer.
+
+            <span className="block mt-4 w-fit rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-[10px] uppercase tracking-wider font-bold text-indigo-600 dark:border-indigo-400/30 dark:bg-indigo-400/10 dark:text-indigo-300">
+              Alpha Release
+            </span>
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
@@ -56,6 +60,13 @@ function Home() {
               <div className="text-2xl font-black text-indigo-600 dark:text-indigo-400">Low</div>
               <div className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[10px]">Training</div>
             </div>
+          </div>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 w-fit">
+            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+            <span className="text-xs font-medium text-indigo-700 dark:text-indigo-300">
+              VCF Automation 9 Resources coming soon
+            </span>
           </div>
         </div>
 
