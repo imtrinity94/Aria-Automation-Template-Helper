@@ -10,8 +10,7 @@ import {
     ConnectionMode,
     BackgroundVariant,
     ReactFlowProvider,
-    useReactFlow,
-    MarkerType
+    useReactFlow
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useTheme } from '@/hooks/useTheme';
@@ -66,20 +65,16 @@ function FlowInner({ nodes: initialNodes, edges: initialEdges, onDeleteNode }: B
             colorMode={theme as 'light' | 'dark'}
             defaultEdgeOptions={{
                 style: {
-                    stroke: theme === 'dark' ? '#94a3b8' : '#64748b',
-                    strokeWidth: 3.5,
-                },
-                markerEnd: {
-                    type: MarkerType.ArrowClosed,
-                    color: theme === 'dark' ? '#94a3b8' : '#64748b',
+                    stroke: theme === 'dark' ? '#ffffff' : '#64748b',
+                    strokeWidth: 4.0,
                 },
             }}
         >
             <Background
                 variant={BackgroundVariant.Dots}
-                color={theme === 'dark' ? '#334155' : '#64748b'}
+                color={theme === 'dark' ? '#ffffff' : '#64748b'}
                 gap={24}
-                size={2}
+                size={1.5}
             />
             <Controls />
         </ReactFlow>

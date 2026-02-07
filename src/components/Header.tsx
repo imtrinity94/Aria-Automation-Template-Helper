@@ -10,9 +10,9 @@ export function Header() {
                         <div className="h-8 w-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
                             <span className="text-white font-bold">V</span>
                         </div>
-                        <span className="bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">VCF Builder</span>
+                        <span className="bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-100 bg-clip-text text-transparent">VCF Automation Template Builder</span>
                     </Link>
-                    <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-400">
+                    <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-200">
                         <Link to="/" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</Link>
                         <Link to="/templates" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Templates</Link>
                         <Link to="/docs" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Documentation</Link>

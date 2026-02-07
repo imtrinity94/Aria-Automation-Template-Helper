@@ -10,7 +10,7 @@
 
   .dark {
     --background: 32 51 58;
-    --foreground: 248 250 252;
+    --foreground: 255 255 255;
   }
 }
 
@@ -21,4 +21,37 @@ html {
 
 body {
   @apply bg-slate-50 text-slate-950 dark:bg-[#0F171C] dark:text-slate-50 transition-colors duration-300;
+}
+
+.dark .react-flow__pane {
+  background-color: transparent;
+}
+
+.dark .react-flow__background {
+  background-color: #20333a;
+}
+
+.dark .react-flow__controls button {
+  @apply bg-[#20333a] border-slate-700 text-slate-200 hover:bg-slate-700;
+}
+
+/* Global connecting lines thickness */
+.react-flow__edge-path {
+  stroke-width: 4 !important;
+  stroke-opacity: 1 !important;
+  stroke-dasharray: 0 !important;
+}
+
+.dark .react-flow__edge-path {
+  stroke: #ffffff !important;
+}
+
+/* Cleanup: Arrowheads removed */
+.react-flow__arrowhead {
+  display: none !important;
+}
+
+.icon-blue-tint {
+  /* Bright blue/teal filter that works on black or colored icons */
+  filter: brightness(0) invert(1) sepia(1) saturate(10) hue-rotate(160deg) brightness(0.9);
 }

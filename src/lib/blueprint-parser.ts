@@ -82,7 +82,6 @@ export const parseBlueprint = (yamlContent: string): BlueprintParseResult => {
                         target: targetKey,
                         animated: false,
                         type: 'smoothstep',
-                        style: { strokeDasharray: '5,5' },
                         data: { type: 'binding' }
                     });
                 }

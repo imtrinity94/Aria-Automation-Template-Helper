@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { Helmet } from "react-helmet-async";
@@ -9,7 +9,7 @@ interface LayoutProps {
     description?: string;
 }
 
-export function Layout({ children, title = "VCF Builder", description = "VCF Automation Template Builder" }: LayoutProps) {
+export function Layout({ children, title = "VCF Automation Template Builder", description = "VCF Automation Template Builder" }: LayoutProps) {
     return (
         <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#0F171C] text-slate-900 dark:text-slate-50 font-sans antialiased">
             <Helmet>

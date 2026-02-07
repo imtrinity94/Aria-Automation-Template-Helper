@@ -9,9 +9,9 @@ function Home() {
     <Layout>
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-8 animate-in fade-in zoom-in duration-500">
         <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">
-          VCF Automation Builder
+          VCF Automation Template Builder
         </h1>
-        <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl">
+        <p className="text-lg text-slate-600 dark:text-slate-200 max-w-2xl">
           Build cloud templates outside of vRA with a modern, intuitive designer.
           Visualize your infrastructure and generate code instantly.
         </p>
@@ -19,7 +19,7 @@ function Home() {
           <Link to="/templates" className="px-6 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-indigo-600/25 flex items-center justify-center">
             Get Started
           </Link>
-          <Link to="/docs" className="px-6 py-3 rounded-xl bg-white dark:bg-[#21343b] text-slate-900 dark:text-white font-medium border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#2c434b] hover:scale-105 active:scale-95 transition-all shadow-sm flex items-center justify-center">
+          <Link to="/docs" className="px-6 py-3 rounded-xl bg-white dark:bg-[#20333a] text-slate-900 dark:text-white font-medium border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#2c434b] hover:scale-105 active:scale-95 transition-all shadow-sm flex items-center justify-center">
             Documentation
           </Link>
         </div>

@@ -66,7 +66,7 @@ const PropertyRow = ({
                         {isComplex && (
                             <button
                                 onClick={() => setIsExpanded(!isExpanded)}
-                                className="mt-1 p-0.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-400 dark:text-slate-500"
+                                className="mt-1 p-0.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-400 dark:text-slate-300"
                             >
                                 {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
                             </button>
@@ -85,7 +85,7 @@ const PropertyRow = ({
                         </div>
                     </div>
                 </td>
-                <td className="px-6 py-4 text-slate-500 dark:text-slate-400 align-top">
+                <td className="px-6 py-4 text-slate-500 dark:text-slate-300 align-top">
                     <div className="flex flex-col gap-1 items-start">
                         <span className={cn(
                             "inline-block px-2 py-0.5 rounded text-xs font-medium border",
@@ -108,7 +108,7 @@ const PropertyRow = ({
                         )}
                     </div>
                 </td>
-                <td className="px-6 py-4 text-slate-600 dark:text-slate-300 align-top leading-relaxed text-sm">
+                <td className="px-6 py-4 text-slate-600 dark:text-slate-100 align-top leading-relaxed text-sm">
                     {details.description || details.title || '-'}
                 </td>
             </tr>
@@ -160,17 +160,17 @@ export default function DocumentationPage() {
 
     return (
         <Layout title="Schema Documentation" description="vRA/VCF Automation YAML Property Reference">
-            <div className="flex h-[calc(100vh-140px)] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-900 shadow-sm">
+            <div className="flex h-[calc(100vh-140px)] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-[#20333a] shadow-sm">
 
                 {/* Sidebar */}
-                <div className="w-1/4 min-w-[250px] border-r border-slate-200 dark:border-slate-800 flex flex-col bg-slate-50/50 dark:bg-slate-950/50">
+                <div className="w-1/4 min-w-[250px] border-r border-slate-200 dark:border-slate-800 flex flex-col bg-slate-50/50 dark:bg-[#20333a]">
                     <div className="p-4 border-b border-slate-200 dark:border-slate-800">
                         <div className="relative">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                             <input
                                 type="text"
                                 placeholder="Search resources..."
-                                className="w-full pl-9 pr-4 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="w-full pl-9 pr-4 py-2 rounded-lg bg-white dark:bg-[#20333a] border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -185,7 +185,7 @@ export default function DocumentationPage() {
                                     "w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center gap-2",
                                     selectedKey === type
                                         ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 font-medium"
-                                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                                        : "text-slate-600 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                                 )}
                             >
                                 <Box className="w-3.5 h-3.5 opacity-70" />
@@ -200,31 +200,31 @@ export default function DocumentationPage() {
                     {selectedDef ? (
                         <div className="max-w-5xl mx-auto animate-in fade-in duration-300">
                             <div className="flex items-center gap-3 mb-2">
-                                <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{selectedKey}</h1>
+                                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{selectedKey}</h1>
                                 <span className="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-mono text-slate-500 border border-slate-200 dark:border-slate-700">
                                     {selectedDef.type || 'Object'}
                                 </span>
                             </div>
 
                             {selectedDef.description && (
-                                <p className="text-slate-600 dark:text-slate-400 mb-8 border-l-4 border-indigo-500 pl-4 py-1 bg-slate-50 dark:bg-slate-900/50 rounded-r-lg">
+                                <p className="text-slate-600 dark:text-slate-400 mb-8 border-l-4 border-indigo-500 pl-4 py-1 bg-slate-50 dark:bg-[#20333a]/50 rounded-r-lg">
                                     {selectedDef.description}
                                 </p>
                             )}
 
                             <div className="mb-6">
-                                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-slate-800 dark:text-slate-200">
+                                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-slate-800 dark:text-white">
                                     <Info className="w-5 h-5 text-indigo-500" />
                                     Properties
                                 </h2>
 
-                                <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden bg-white dark:bg-slate-900">
+                                <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden bg-white dark:bg-[#20333a]">
                                     <table className="w-full text-left text-sm">
                                         <thead className="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700">
                                             <tr>
-                                                <th className="px-6 py-3 font-medium text-slate-700 dark:text-slate-200 w-[250px]">Name</th>
-                                                <th className="px-6 py-3 font-medium text-slate-700 dark:text-slate-200 w-[200px]">Type</th>
-                                                <th className="px-6 py-3 font-medium text-slate-700 dark:text-slate-200">Description</th>
+                                                <th className="px-6 py-3 font-medium text-slate-700 dark:text-white w-[250px]">Name</th>
+                                                <th className="px-6 py-3 font-medium text-slate-700 dark:text-white w-[200px]">Type</th>
+                                                <th className="px-6 py-3 font-medium text-slate-700 dark:text-white">Description</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100 dark:divide-slate-800">

@@ -21,16 +21,16 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
             base: 'vs-dark',
             inherit: true,
             rules: [
-                { token: 'type', foreground: '818cf8' },
-                { token: 'keyword', foreground: 'f472b6' },
-                { token: 'string', foreground: '34d399' },
-                { token: 'number', foreground: 'fbbf24' },
-                { token: 'comment', foreground: '64748b', fontStyle: 'italic' },
+                { token: 'type', foreground: 'c7d2fe' },
+                { token: 'keyword', foreground: '2dd4bf' },
+                { token: 'string', foreground: 'a7f3d0' },
+                { token: 'number', foreground: 'fde68a' },
+                { token: 'comment', foreground: '94a3b8', fontStyle: 'italic' },
             ],
             colors: {
                 'editor.background': '#20333a',
                 'editor.foreground': '#f8fafc',
-                'editorCursor.foreground': '#6366f1',
+                'editorCursor.foreground': '#2dd4bf',
                 'editor.lineHighlightBackground': '#2c434b',
                 'editorLineNumber.foreground': '#4a6b75',
                 'editorIndentGuide.background': '#2c434b',
@@ -62,40 +62,38 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
         });
 
         // Pre-process snippets for faster context-aware lookups
-        const resourceTypes = Object.keys(snippets);
+        const resourceTypes = Object.keys(snippets).map(t => t.replace(':', ''));
         const propertyMap: Record<string, string[]> = {};
 
-        Object.entries(snippets).forEach(([_, s]) => {
-            const typeMatch = s.body.find(l => l.includes('type:'));
-            if (typeMatch) {
-                const type = typeMatch.split('type:')[1].trim();
-                // Extract keys from body
-                const properties: string[] = [];
-                let inProperties = false;
-                s.body.forEach(line => {
-                    const trimmed = line.trim();
-                    if (trimmed === 'properties:') { inProperties = true; return; }
-                    if (inProperties && trimmed.endsWith(':')) {
-                        properties.push(trimmed.replace(':', ''));
+        Object.entries(snippets).forEach(([prefixWithColon, s]) => {
+            const prefix = prefixWithColon.replace(':', '');
+            const typeMatch = s.body.find(l => l.trim().startsWith('type:'));
+            const type = typeMatch ? typeMatch.split('type:')[1].trim() : prefix;
+
+            const properties: string[] = [];
+            let inProperties = false;
+            s.body.forEach(line => {
+                const trimmed = line.trim();
+                const indent = line.search(/\S/);
+                if (trimmed === 'properties:') { inProperties = true; return; }
+                if (inProperties) {
+                    if (indent <= 4 && trimmed !== '' && indent !== -1) {
+                        inProperties = false;
+                        return;
                     }
-                    if (inProperties && (trimmed === '' || !line.startsWith('      '))) {
-                        // End of properties or deeper nesting
+                    if (trimmed.endsWith(':') && indent === 6) {
+                        properties.push(trimmed.replace(':', '').trim());
                     }
-                });
-                propertyMap[type] = properties;
-            }
+                }
+            });
+            propertyMap[type] = properties;
+            if (type !== prefix) propertyMap[prefix] = properties;
         });
 
         // Register completion item provider for YAML
         monaco.languages.registerCompletionItemProvider("yaml", {
-            triggerCharacters: [':', ' ', '\n', '-'],
+            triggerCharacters: [':', ' ', '\n'],
             provideCompletionItems: (model, position) => {
-                const lineContent = model.getLineContent(position.lineNumber);
-                // Trigger context-aware logic based on lineContent if needed
-                if (lineContent.trim().length === 0) {
-                    // Empty line logic...
-                }
-
                 const textUntilPosition = model.getValueInRange({
                     startLineNumber: 1,
                     startColumn: 1,
@@ -115,9 +113,48 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
                 };
 
                 const suggestions: any[] = [];
+                const currentIndent = currentLine.search(/\S/);
 
-                // 1. If typing "type:", suggest resource types
-                if (currentLine.includes('type:')) {
+                // 1. Context Detection
+                let currentSection = '';
+                let currentResourceName = '';
+                let currentResourceType = '';
+                let inPropertiesBlock = false;
+
+                for (let i = lines.length - 2; i >= 0; i--) {
+                    const line = lines[i];
+                    if (line.trim() === '') continue;
+                    const indent = line.search(/\S/);
+
+                    if (indent === 0) {
+                        if (!currentSection) {
+                            if (line.trim().startsWith('resources:')) currentSection = 'resources';
+                            else if (line.trim().startsWith('inputs:')) currentSection = 'inputs';
+                            else currentSection = 'metadata';
+                        }
+                        break; // Top level reached
+                    }
+
+                    if (!currentSection || currentSection === 'resources') {
+                        if (indent === 2 && line.trim().endsWith(':')) {
+                            if (!currentResourceName) currentResourceName = line.trim().replace(':', '');
+                        }
+                        if (indent === 4 && line.trim().startsWith('type:')) {
+                            if (!currentResourceType) currentResourceType = line.trim().split('type:')[1].trim();
+                        }
+                        if (indent === 4 && line.trim().startsWith('properties:')) {
+                            inPropertiesBlock = true;
+                        }
+                    }
+                }
+
+                // Identify if we are actually under properties (based on indent)
+                if (currentSection === 'resources' && currentIndent >= 6) {
+                    inPropertiesBlock = true;
+                }
+
+                // 2. Typing "type:" - show resource types
+                if (currentLine.trim().startsWith('type:')) {
                     resourceTypes.forEach(type => {
                         suggestions.push({
                             label: type,
@@ -130,79 +167,59 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
                     return { suggestions };
                 }
 
-                // 2. Context Detection
-                let currentSection = '';
-                let currentResourceName = '';
-                let currentResourceType = '';
-
-                for (let i = lines.length - 2; i >= 0; i--) {
-                    const line = lines[i];
-                    const indent = line.search(/\S/);
-
-                    if (indent === 0) {
-                        if (line.trim().startsWith('resources:')) currentSection = 'resources';
-                        if (line.trim().startsWith('inputs:')) currentSection = 'inputs';
-                        if (line.trim().startsWith('formatVersion:')) currentSection = 'metadata';
-                    }
-
-                    if (currentSection === 'resources') {
-                        // Detect resource name (indent 2)
-                        if (indent === 2 && line.trim().endsWith(':')) {
-                            if (!currentResourceName) currentResourceName = line.trim().replace(':', '');
-                        }
-                        // Detect resource type
-                        if (indent === 4 && line.trim().startsWith('type:')) {
-                            if (!currentResourceType) currentResourceType = line.trim().split('type:')[1].trim();
-                        }
-                    }
-                }
-
-                const currentIndent = currentLine.search(/\S/);
-
-                // 3. Root suggestions (resources, inputs, formatVersion)
-                if (currentIndent <= 0 || currentLine.trim() === '') {
-                    const roots = ['resources:', 'inputs:', 'formatVersion: 1'];
+                // 3. Root suggestions
+                if (currentIndent <= 0) {
+                    const roots = [
+                        { label: 'resources:', detail: 'Main resources block' },
+                        { label: 'inputs:', detail: 'Input parameters' },
+                        { label: 'formatVersion: 1', detail: 'Blueprint version' }
+                    ];
                     roots.forEach(r => {
                         suggestions.push({
-                            label: r.replace(':', ''),
+                            label: r.label.replace(':', ''),
                             kind: monaco.languages.CompletionItemKind.Keyword,
-                            insertText: r,
+                            insertText: r.label,
+                            detail: r.detail,
                             range: range
                         });
                     });
                 }
 
-                // 4. Resource property suggestions
-                if (currentSection === 'resources') {
-                    // Under resource name (suggest type, properties, dependsOn)
-                    if (currentIndent === 4 || (currentLine.trim() === '' && lines[lines.length - 2]?.search(/\S/) === 2)) {
-                        const keys = ['type:', 'properties:', 'dependsOn:'];
-                        keys.forEach(k => {
-                            suggestions.push({
-                                label: k.replace(':', ''),
-                                kind: monaco.languages.CompletionItemKind.Field,
-                                insertText: k,
-                                range: range
-                            });
+                // 4. Resource Level suggestions (type, properties, dependsOn)
+                if (currentSection === 'resources' && (currentIndent === 4 || (currentIndent === -1 && lines[lines.length - 2]?.search(/\S/) === 2))) {
+                    const keys = [
+                        { label: 'type:', detail: 'Resource type' },
+                        { label: 'properties:', detail: 'Resource properties' },
+                        { label: 'dependsOn:', detail: 'Execution dependencies' },
+                        { label: 'condition:', detail: 'Conditional deployment' }
+                    ];
+                    keys.forEach(k => {
+                        suggestions.push({
+                            label: k.label.replace(':', ''),
+                            kind: monaco.languages.CompletionItemKind.Field,
+                            insertText: k.label,
+                            detail: k.detail,
+                            range: range
                         });
-                    }
-
-                    // Under properties (suggest specific properties for the detected type)
-                    if (currentResourceType && (currentIndent === 6 || currentLine.trim() === '')) {
-                        const props = propertyMap[currentResourceType] || [];
-                        props.forEach(p => {
-                            suggestions.push({
-                                label: p,
-                                kind: monaco.languages.CompletionItemKind.Property,
-                                insertText: p + ':',
-                                range: range
-                            });
-                        });
-                    }
+                    });
                 }
 
-                // 5. Fallback to snippets if not specific context
-                if (suggestions.length === 0) {
+                // 5. Property suggestions (Object-type aware)
+                if (currentSection === 'resources' && inPropertiesBlock && currentResourceType) {
+                    const props = propertyMap[currentResourceType] || [];
+                    props.forEach(p => {
+                        suggestions.push({
+                            label: p,
+                            kind: monaco.languages.CompletionItemKind.Property,
+                            insertText: p + ':',
+                            detail: `Property for ${currentResourceType}`,
+                            range: range
+                        });
+                    });
+                }
+
+                // 6. Snippets Fallback
+                if (suggestions.length === 0 || currentLine.trim() === '') {
                     Object.entries(snippets).forEach(([_, snippet]) => {
                         suggestions.push({
                             label: snippet.prefix,

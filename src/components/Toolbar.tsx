@@ -14,7 +14,7 @@ export function Toolbar({ onRender, onDownloadYaml, onDownloadPng, onLoadSample 
             <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2 px-2 py-1 rounded bg-slate-100 dark:bg-[#20333a]/50 border border-slate-200 dark:border-slate-800">
                     <select
-                        className="bg-transparent text-[10px] font-bold text-slate-500 dark:text-slate-400 focus:outline-none cursor-pointer hover:text-slate-900 dark:hover:text-slate-200 transition-colors uppercase tracking-widest"
+                        className="bg-transparent text-[10px] font-bold text-slate-500 dark:text-slate-200 focus:outline-none cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors uppercase tracking-widest"
                         onChange={(e) => {
                             const sample = SAMPLES.find(s => s.name === e.target.value);
                             if (sample) onLoadSample(sample.code);
@@ -23,7 +23,7 @@ export function Toolbar({ onRender, onDownloadYaml, onDownloadPng, onLoadSample 
                     >
                         <option value="" disabled className="bg-white dark:bg-[#20333a]">Select Template</option>
                         {SAMPLES.map(s => (
-                            <option key={s.name} value={s.name} className="bg-white dark:bg-[#20333a] text-slate-700 dark:text-slate-300">{s.name}</option>
+                            <option key={s.name} value={s.name} className="bg-white dark:bg-[#20333a] text-slate-700 dark:text-white">{s.name}</option>
                         ))}
                     </select>
                 </div>
@@ -42,7 +42,7 @@ export function Toolbar({ onRender, onDownloadYaml, onDownloadPng, onLoadSample 
 
                 <button
                     onClick={onDownloadYaml}
-                    className="flex items-center gap-2 px-3 py-1.5 text-[10px] font-bold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 bg-slate-100 dark:bg-[#20333a]/50 border border-slate-200 dark:border-slate-800 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 transition-all uppercase tracking-widest"
+                    className="flex items-center gap-2 px-3 py-1.5 text-[10px] font-bold text-slate-500 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white bg-slate-100 dark:bg-[#20333a]/50 border border-slate-200 dark:border-slate-800 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 transition-all uppercase tracking-widest"
                     title="Download YAML"
                 >
                     <FileDown className="w-3.5 h-3.5" />
@@ -51,7 +51,7 @@ export function Toolbar({ onRender, onDownloadYaml, onDownloadPng, onLoadSample 
 
                 <button
                     onClick={onDownloadPng}
-                    className="flex items-center gap-2 px-3 py-1.5 text-[10px] font-bold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 transition-all uppercase tracking-widest"
+                    className="flex items-center gap-2 px-3 py-1.5 text-[10px] font-bold text-slate-500 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 active:scale-95 transition-all uppercase tracking-widest"
                     title="Download PNG"
                 >
                     <Download className="w-3.5 h-3.5" />

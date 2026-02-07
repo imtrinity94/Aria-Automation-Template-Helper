@@ -12,22 +12,22 @@ export const ResourceNode = memo(({ data }: any) => {
 
     return (
         <div className={cn(
-            "group relative flex items-center gap-4 px-6 py-5 min-w-[320px] bg-white dark:bg-[#20333a] rounded-xl border dark:border-2 border-slate-200 dark:border-slate-500 shadow-md hover:shadow-xl transition-all duration-200",
+            "group relative flex items-center gap-4 px-6 py-5 min-w-[320px] bg-white dark:bg-[#20333a] rounded-xl border dark:border-2 border-slate-200 dark:border-white shadow-md hover:shadow-xl transition-all duration-200",
             data.isSelected && "ring-2 ring-indigo-500 border-indigo-500"
         )}>
             {/* Target handle on the left */}
             <Handle
                 type="target"
                 position={Position.Left}
-                className="w-2 h-2 !bg-slate-700 dark:!bg-slate-400 border-none"
+                className="w-2.5 h-2.5 !bg-slate-700 dark:!bg-white border-none"
             />
 
-            <div className="flex items-center justify-center w-12 h-12 shrink-0 bg-slate-50 dark:bg-slate-800/50 rounded-md p-1.5 border border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-center w-12 h-12 shrink-0 bg-slate-50 dark:bg-slate-800/10 rounded-md p-1.5 border border-slate-100 dark:border-white/50">
                 <img
                     src={iconPath}
                     alt={data.originalType}
                     title={`${data.originalType}: ${iconName}`}
-                    className="w-full h-full object-contain pointer-events-none"
+                    className="w-full h-full object-contain pointer-events-none dark:icon-blue-tint"
                     onError={(e) => {
                         console.error('Failed to load icon:', iconPath);
                         // Fallback if image fails to load
@@ -37,10 +37,10 @@ export const ResourceNode = memo(({ data }: any) => {
             </div>
 
             <div className="flex-1 overflow-hidden">
-                <div className="text-xl font-bold text-slate-800 dark:text-slate-100 truncate text-left tracking-tight">
+                <div className="text-xl font-bold text-slate-800 dark:text-white truncate text-left tracking-tight">
                     {data.name}
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 truncate uppercase mt-1 font-semibold tracking-wider text-left mb-2">
+                <div className="text-xs text-slate-500 dark:text-slate-200 truncate uppercase mt-1 font-semibold tracking-wider text-left mb-2">
                     {data.label || data.originalType}
                 </div>
                 {data.constraints && data.constraints.length > 0 && (
@@ -87,7 +87,7 @@ export const ResourceNode = memo(({ data }: any) => {
             <Handle
                 type="source"
                 position={Position.Right}
-                className="w-2 h-2 !bg-slate-700 dark:!bg-slate-400 border-none"
+                className="w-2.5 h-2.5 !bg-slate-700 dark:!bg-white border-none"
             />
         </div>
     );

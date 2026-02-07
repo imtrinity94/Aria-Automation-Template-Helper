@@ -46,6 +46,6 @@ resources:
       networkType: public`;
 
 export const SAMPLES = [
-    { name: 'Simple Machine & Network', code: SAMPLE_BLUEPRINT_SIMPLE },
-    { name: 'Load Balancer + Web Tier', code: SAMPLE_BLUEPRINT_COMPLEX },
+  { name: 'Simple Machine & Network', code: SAMPLE_BLUEPRINT_SIMPLE },
+  { name: 'Load Balancer + Web Tier', code: SAMPLE_BLUEPRINT_COMPLEX },
 ];
