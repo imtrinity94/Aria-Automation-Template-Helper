@@ -90,10 +90,16 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
             if (type !== prefix) propertyMap[prefix] = properties;
         });
 
+        // Global constants for IntelliSense
+        const ENV_VARS = ['orgId', 'projectId', 'projectName', 'deploymentId', 'deploymentName', 'blueprintId', 'blueprintVersion', 'blueprintName', 'requestedBy', 'requestedAt'];
+        const FUNCTIONS = ['to_lower', 'to_upper', 'to_string', 'to_integer', 'base64_encode', 'base64_decode', 'replace', 'substring', 'length', 'map_by', 'filter_by', 'map_to_object'];
+        const INPUT_SCHEMA = ['type', 'title', 'description', 'default', 'enum', 'oneOf', 'encrypted', 'maxLength', 'minLength', 'pattern', 'minItems', 'maxItems'];
+        const RESOURCE_FLAGS = ['count', 'allocate', 'allocatePerInstance', 'preventDelete', 'condition', 'dependsOn'];
+
         // Register completion item provider for YAML
         monaco.languages.registerCompletionItemProvider("yaml", {
-            triggerCharacters: [':', ' ', '\n'],
-            provideCompletionItems: (model, position) => {
+            triggerCharacters: [':', ' ', '\n', '$', '{', '.', '('],
+            provideCompletionItems: (model: any, position: any) => {
                 const textUntilPosition = model.getValueInRange({
                     startLineNumber: 1,
                     startColumn: 1,
@@ -167,12 +173,54 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
                     return { suggestions };
                 }
 
+                // 2b. Placeholder Detection (${...})
+                if (currentLine.includes('${')) {
+                    const textAfterBrace = currentLine.split('${').pop() || '';
+                    if (!textAfterBrace.includes('}')) {
+                        // Environment vars
+                        if (textAfterBrace.startsWith('env.')) {
+                            ENV_VARS.forEach(v => {
+                                suggestions.push({
+                                    label: v,
+                                    kind: monaco.languages.CompletionItemKind.Variable,
+                                    insertText: v,
+                                    detail: 'Environment Variable',
+                                    range: range
+                                });
+                            });
+                            return { suggestions };
+                        }
+                        // Functions
+                        FUNCTIONS.forEach(f => {
+                            suggestions.push({
+                                label: f,
+                                kind: monaco.languages.CompletionItemKind.Function,
+                                insertText: f + '(',
+                                detail: 'Blueprint Function',
+                                range: range
+                            });
+                        });
+                        // Roots
+                        ['env.', 'input.', 'resource.', 'self.', 'secret.', 'propgroup.', 'count.'].forEach(r => {
+                            suggestions.push({
+                                label: r,
+                                kind: monaco.languages.CompletionItemKind.Keyword,
+                                insertText: r,
+                                detail: 'vRA Reference',
+                                range: range
+                            });
+                        });
+                        return { suggestions };
+                    }
+                }
+
                 // 3. Root suggestions
                 if (currentIndent <= 0) {
                     const roots = [
                         { label: 'resources:', detail: 'Main resources block' },
                         { label: 'inputs:', detail: 'Input parameters' },
-                        { label: 'formatVersion: 1', detail: 'Blueprint version' }
+                        { label: 'formatVersion: 1', detail: 'Blueprint version' },
+                        { label: 'name:', detail: 'Template name' }
                     ];
                     roots.forEach(r => {
                         suggestions.push({
@@ -185,13 +233,25 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
                     });
                 }
 
-                // 4. Resource Level suggestions (type, properties, dependsOn)
+                // 3b. Input Schema suggestions
+                if (currentSection === 'inputs' && currentIndent >= 2) {
+                    INPUT_SCHEMA.forEach(s => {
+                        suggestions.push({
+                            label: s,
+                            kind: monaco.languages.CompletionItemKind.Field,
+                            insertText: s + ':',
+                            detail: 'Input Schema Attribute',
+                            range: range
+                        });
+                    });
+                    return { suggestions };
+                }
+
+                // 4. Resource Level suggestions (type, properties, flags)
                 if (currentSection === 'resources' && (currentIndent === 4 || (currentIndent === -1 && lines[lines.length - 2]?.search(/\S/) === 2))) {
                     const keys = [
                         { label: 'type:', detail: 'Resource type' },
-                        { label: 'properties:', detail: 'Resource properties' },
-                        { label: 'dependsOn:', detail: 'Execution dependencies' },
-                        { label: 'condition:', detail: 'Conditional deployment' }
+                        { label: 'properties:', detail: 'Resource properties' }
                     ];
                     keys.forEach(k => {
                         suggestions.push({
@@ -199,6 +259,15 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
                             kind: monaco.languages.CompletionItemKind.Field,
                             insertText: k.label,
                             detail: k.detail,
+                            range: range
+                        });
+                    });
+                    RESOURCE_FLAGS.forEach(f => {
+                        suggestions.push({
+                            label: f,
+                            kind: monaco.languages.CompletionItemKind.Field,
+                            insertText: f + ':',
+                            detail: 'Resource Flag',
                             range: range
                         });
                     });
@@ -236,14 +305,49 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
             }
         });
 
+        // Documentation Map for Hover Provider
+        const HOVER_DOCS: Record<string, string> = {
+            'formatVersion': 'The version of the blueprint format. Standard version is 1.',
+            'inputs': 'Defines parameters that users can provide during placement.',
+            'resources': 'Defines the infrastructure components (VMS, networks, etc.) to be deployed.',
+            'dependsOn': 'Explicit dependency. Deployment will wait for the target resource to be ready.',
+            'condition': 'Boolean expression for conditional deployment.',
+            'count': 'Clustering index. Specifies the number of instances for the resource.',
+            'preventDelete': 'If true, prevents the resource from being deleted during updates.',
+            'allocatePerInstance': 'Specifies if allocation should happen per instance in a cluster.',
+            'orgId': 'The ID of the organization where the template is deployed.',
+            'projectId': 'The ID of the project associated with the deployment.',
+            'image': 'The operating system image name or reference.',
+            'flavor': 'The hardware size configuration (e.g., small, medium).',
+            'to_lower': 'Converts a string to lowercase. usage: `${to_lower(resource.Machine.name)}`',
+            'to_upper': 'Converts a string to uppercase.',
+            'base64_encode': 'Encodes a string into Base64 format.',
+            'map_to_object': 'Transforms an array into an object mapping. usage: `${map_to_object(resource.Disk[*].id, "source")}`',
+            'length': 'Returns the number of items in an array or length of a string.',
+            'enum': 'Provides a fixed list of values for an input.',
+            'oneOf': 'Provides a list of objects with title (display) and const (value) for dropdowns.'
+        };
+
         // Register hover provider for YAML
         monaco.languages.registerHoverProvider("yaml", {
-            provideHover: (model, position) => {
+            provideHover: (model: any, position: any) => {
                 const word = model.getWordAtPosition(position);
                 if (!word) return;
 
-                // Find resource type in snippets
-                const snippet = Object.values(snippets).find(s => s.prefix === word.word);
+                const lookupWord = word.word;
+
+                // 1. Check Custom Hover Docs
+                if (HOVER_DOCS[lookupWord]) {
+                    return {
+                        contents: [
+                            { value: `### ${lookupWord}` },
+                            { value: HOVER_DOCS[lookupWord] }
+                        ]
+                    };
+                }
+
+                // 2. Find resource type in snippets
+                const snippet = Object.values(snippets).find(s => s.prefix === lookupWord);
                 if (snippet) {
                     return {
                         contents: [
@@ -251,16 +355,6 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
                             { value: snippet.description }
                         ]
                     };
-                }
-
-                // Check if it's a known property
-                const lineContent = model.getLineContent(position.lineNumber);
-                if (lineContent.includes(':')) {
-                    const key = lineContent.split(':')[0].trim();
-                    if (key === word.word) {
-                        // We could find which resource this property belongs to, 
-                        // but for now just showing it's a property is good.
-                    }
                 }
 
                 return null;
