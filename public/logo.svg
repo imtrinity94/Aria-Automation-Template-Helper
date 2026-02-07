@@ -1,0 +1,13 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer brackets -->
+  <path d="M100 50 C70 50 50 70 50 100 L50 412 C50 442 70 462 100 462" stroke="#0078D4" stroke-width="30" stroke-linecap="round" fill="none"/>
+  <path d="M412 50 C442 50 462 70 462 100 L462 412 C462 442 442 462 412 462" stroke="#0078D4" stroke-width="30" stroke-linecap="round" fill="none"/>
+  
+  <!-- 3D Cube -->
+  <!-- Top face -->
+  <path d="M256 130 L356 190 L256 250 L156 190 Z" fill="#0078D4"/>
+  <!-- Left face -->
+  <path d="M156 190 L156 310 L256 370 L256 250 Z" fill="#005A9E"/>
+  <!-- Right face -->
+  <path d="M256 250 L256 370 L356 310 L356 190 Z" fill="#0091DA"/>
+</svg>

@@ -20,6 +20,7 @@ interface BlueprintDiagramProps {
     nodes: Node[];
     edges: Edge[];
     onDeleteNode?: (id: string) => void;
+    hideHeader?: boolean;
 }
 
 function FlowInner({ nodes: initialNodes, edges: initialEdges, onDeleteNode }: BlueprintDiagramProps) {
@@ -84,9 +85,11 @@ function FlowInner({ nodes: initialNodes, edges: initialEdges, onDeleteNode }: B
 export function BlueprintDiagram(props: BlueprintDiagramProps) {
     return (
         <div className="h-full w-full bg-slate-50 dark:bg-[#20333a] flex flex-col overflow-hidden" id="diagram-container">
-            <div className="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-[#20333a] backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
-                <span className="text-base font-bold text-slate-800 dark:text-slate-100">Topology Diagram</span>
-            </div>
+            {!props.hideHeader && (
+                <div className="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-[#20333a] backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+                    <span className="text-base font-bold text-slate-800 dark:text-slate-100">Topology Diagram</span>
+                </div>
+            )}
             <div className="flex-1 min-h-0 relative">
                 <ReactFlowProvider>
                     <FlowInner {...props} />

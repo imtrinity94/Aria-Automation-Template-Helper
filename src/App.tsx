@@ -4,31 +4,64 @@ import DocumentationPage from "@/pages/Documentation";
 import { Layout } from "@/components/Layout";
 import { Link } from "react-router-dom";
 
+import { HeroShowcase } from "@/components/HeroShowcase";
+
 function Home() {
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-8 animate-in fade-in zoom-in duration-500">
-        <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">
-          VCF Automation Template Builder
-        </h1>
-        <p className="text-lg text-slate-600 dark:text-slate-200 max-w-2xl">
-          Build cloud templates outside of vRA with a modern, intuitive designer.
-          Visualize your infrastructure and generate code instantly.
-        </p>
-        <div className="flex gap-4">
-          <Link to="/templates" className="px-6 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-indigo-600/25 flex items-center justify-center">
-            Get Started
-          </Link>
-          <Link to="/docs" className="px-6 py-3 rounded-xl bg-white dark:bg-[#20333a] text-slate-900 dark:text-white font-medium border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#2c434b] hover:scale-105 active:scale-95 transition-all shadow-sm flex items-center justify-center">
-            Documentation
-          </Link>
+      <div className="flex flex-col lg:flex-row items-center min-h-[calc(100vh-64px)] px-6 lg:px-12 gap-12 overflow-hidden py-12 lg:py-0">
+        {/* Left Side: Hero Content */}
+        <div className="flex-1 text-left space-y-8 animate-in slide-in-from-left-8 duration-1000">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50 text-xs font-bold uppercase tracking-widest">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            OFFLINE TEMPLATE REFERENCE
+          </div>
+
+          <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
+            Visualize your <br />
+            <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-500 bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent italic">Infrastructure</span> <br />
+            as Code.
+          </h1>
+
+          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
+            The ultimate designer for VMware Cloud Foundation Automation.
+            Build, visualize, and validate templates with an intelligent designer.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+            <Link to="/templates" className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-indigo-600/20 flex items-center justify-center gap-2 group">
+              Start Building Now
+              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+            <Link to="/docs" className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white dark:bg-[#20333a] text-slate-900 dark:text-white font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#2c434b] hover:scale-105 active:scale-95 transition-all shadow-sm flex items-center justify-center">
+              View Documentation
+            </Link>
+          </div>
+
+          <div className="pt-8 grid grid-cols-3 gap-8 border-t border-slate-100 dark:border-slate-800">
+            <div>
+              <div className="text-2xl font-black text-indigo-600 dark:text-indigo-400">100%</div>
+              <div className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[10px]">Offline</div>
+            </div>
+            <div>
+              <div className="text-2xl font-black text-violet-600 dark:text-violet-400">50+</div>
+              <div className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[10px]">Resources</div>
+            </div>
+            <div>
+              <div className="text-2xl font-black text-indigo-600 dark:text-indigo-400">Low</div>
+              <div className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[10px]">Training</div>
+            </div>
+          </div>
         </div>
 
-        {/* Dynamic color tag demo */}
-        <div className="flex gap-2 mt-8">
-          <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400 border border-blue-100 dark:border-blue-900">Blue Tag</span>
-          <span className="px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900">Emerald Tag</span>
-          <span className="px-3 py-1 rounded-full text-xs font-medium bg-orange-50 text-orange-600 dark:bg-orange-950/50 dark:text-orange-400 border border-orange-100 dark:border-orange-900">Orange Tag</span>
+        {/* Right Side: Showcase */}
+        <div className="flex-1 w-full lg:w-1/2 h-[600px] lg:h-[750px] animate-in fade-in slide-in-from-right-8 duration-1000 delay-200">
+          <HeroShowcase />
         </div>
       </div>
     </Layout>

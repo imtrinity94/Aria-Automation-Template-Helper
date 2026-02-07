@@ -7,9 +7,7 @@ export function Header() {
             <div className="container mx-auto flex h-16 items-center justify-between px-4">
                 <div className="flex items-center gap-6">
                     <Link to="/" className="flex items-center gap-2 text-lg font-bold text-slate-900 dark:text-white">
-                        <div className="h-8 w-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
-                            <span className="text-white font-bold">V</span>
-                        </div>
+                        <img src="/logo.svg" alt="VCF Logo" className="h-8 w-8" />
                         <span className="bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-100 bg-clip-text text-transparent">VCF Automation Template Builder</span>
                     </Link>
                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-200">

@@ -6,13 +6,14 @@ import snippetsData from "@/data/snippets.json";
 interface BlueprintEditorProps {
     value: string;
     onChange: (value: string | undefined) => void;
+    hideHeader?: boolean;
 }
 
 // Type for the snippet file structure
 type SnippetMap = Record<string, { prefix: string; body: string[]; description: string }>;
 const snippets = snippetsData as SnippetMap;
 
-export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
+export function BlueprintEditor({ value, onChange, hideHeader }: BlueprintEditorProps) {
     const { theme } = useTheme();
 
     const handleEditorWillMount = useCallback((monaco: Monaco) => {
@@ -364,9 +365,11 @@ export function BlueprintEditor({ value, onChange }: BlueprintEditorProps) {
 
     return (
         <div className="h-full w-full bg-white dark:bg-[#20333a] flex flex-col overflow-hidden">
-            <div className="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-[#20333a] backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
-                <span className="text-base font-bold text-slate-800 dark:text-slate-100">Blueprint YAML</span>
-            </div>
+            {!hideHeader && (
+                <div className="px-4 py-3 flex items-center justify-between bg-slate-50/50 dark:bg-[#20333a] backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+                    <span className="text-base font-bold text-slate-800 dark:text-slate-100">Blueprint YAML</span>
+                </div>
+            )}
             <div className="flex-1 min-h-0">
                 <Editor
                     key={theme}
